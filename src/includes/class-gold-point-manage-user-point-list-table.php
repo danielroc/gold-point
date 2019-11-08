@@ -127,8 +127,8 @@ class Gold_Point_Manage_User_Point_List_Table extends WP_List_Table {
 				$url   = add_query_arg( array('isList' => 'true', 'tab' => 'log','_user_id' => $item->ID), admin_url( 'admin.php?page=gold-point-plugin' ) );
 				return sprintf('<a href="%s">%s</a>', $url, $item->$column_name) ;
 			case 'act':
-				$url   = add_query_arg( array('isList' => 'false', 'tab' => 'point','ID' => $item->ID), admin_url( 'admin.php?page=gold-point-plugin' ) );
-				$refresh   = add_query_arg( array('isList' => 'true', 'tab' => 'point','ID' => $item->ID, 'refresh' => 'true' ), admin_url( 'admin.php?page=gold-point-plugin' ) );
+				$url   = add_query_arg( array('isList' => 'false', 'tab' => 'user','ID' => $item->ID), admin_url( 'admin.php?page=gold-point-plugin' ) );
+				$refresh   = add_query_arg( array('isList' => 'true', 'tab' => 'user','ID' => $item->ID, 'refresh' => 'true' ), admin_url( 'admin.php?page=gold-point-plugin' ) );
 				return sprintf('<a href="%s">%s</a> <a href="%s">%s</a>', $url, '編輯', $refresh, '點數刷新') ;
             default:
                 return 'unknown';
@@ -278,8 +278,7 @@ class Gold_Point_Manage_User_Point_List_Table extends WP_List_Table {
 			echo "<div id='message' class='updated'><p><strong>更新 ".$wpdb->query($sql)." 筆成功</strong></p> </div>";// update 成功的筆數	
         }
 
-
-		$per_page = 20;//$this->get_items_per_page( 'wc_points_rewards_manage_points_customers_per_page' );
+		$per_page = 20;
 		$offset =  ( $this->get_pagenum() - 1 ) * $per_page;
 		switch ( $this->get_current_order() ) {
 			case 'asc':

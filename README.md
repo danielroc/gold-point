@@ -1,7 +1,7 @@
 # Gold Point
 
 ## Overview
-Gold Point is an open source, free rewards points system for WooCommerce designed for Customer Loyalty Program. Gold Point provides individaul setting for multi-purpose points design to reward customers on purchases, register or custom marketing events. Reward your loyal Customers using points which can be redeemed for discounts on future purchases.
+Gold Point is an open source, free rewards points system for WooCommerce designed for Customer Loyalty Program. Gold Point provides individaul setting for multi-purpose points design to reward customers on purchases, register or custom marketing events. Reward your loyal Customers using points which can be redeemed for promotion provide incentive to shop back.
 
 ## Features
 - Define Custome type of individual reward points with different valid period mechanism simultaneously.

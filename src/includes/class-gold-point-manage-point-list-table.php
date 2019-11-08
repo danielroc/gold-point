@@ -8,21 +8,11 @@ if ( ! class_exists( 'WP_List_Table' ) )
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
 /**
- * 
- * Extends WP_List_Table to display customer reward points
- *
  * @since 1.0
  * @extends \WP_List_Table
  */
 class Gold_Point_Manage_Point_List_Table extends WP_List_Table {
 
-	/**
-	 * Setup list table
-	 *
-	 * @see WP_List_Table::__construct()
-	 * @since 1.0
-	 * @return \WC_Points_Rewards_Manage_Points_List_Table
-	 */
 	public function __construct() {
 
 		parent::__construct(
@@ -142,7 +132,7 @@ class Gold_Point_Manage_Point_List_Table extends WP_List_Table {
                 if($item->$column_name==null || $item->$column_name==0)
 					return '停用';
 			case 'act':
-				$url   = add_query_arg( array('isList' => 'false', 'id' => $item->id), admin_url( 'admin.php?page=gold-point-plugin' ) );
+				$url   = add_query_arg( array('tab'=>'manage','isList' => 'false', 'id' => $item->id), admin_url( 'admin.php?page=gold-point-plugin' ) );
                 return '<a href="'.$url.'">編輯</a>';	
 			default:
                 return 'unknown';
@@ -258,7 +248,7 @@ class Gold_Point_Manage_Point_List_Table extends WP_List_Table {
 	 * Generates queries to get our list table items.
 	 */
 	private function get_items() {
-		global $wpdb;
+		global $wpdb, $gold_point;
 
 		$per_page = $this->get_items_per_page( 'wc_points_rewards_manage_points_customers_per_page' );
 		$offset =  ( $this->get_pagenum() - 1 ) * $per_page;
@@ -271,15 +261,15 @@ class Gold_Point_Manage_Point_List_Table extends WP_List_Table {
 				break;
 		}
         $orderby_column = $this->get_current_orderby();
-		// Do we need to filter by customer?
+
 		$where = '';
         //search condition
 		if ( isset( $_GET['_name'] ) ) {
 			$where = $wpdb->prepare( "AND name like %s", '%'.$_GET['_name'].'%' );
 		}
-       
+       	$table = $gold_point->tablename_point;
 		 // Build a query we can use for count and results
-         $query = "FROM {$wpdb->prefix}wc_gold_points as gold_points WHERE 1=1 {$where} ORDER BY {$orderby_column} {$order}";
+         $query = "FROM {$table} as gold_points WHERE 1=1 {$where} ORDER BY {$orderby_column} {$order}";
          //echo  $query;
          return array(
              //'count'   => 1,
