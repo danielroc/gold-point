@@ -26,6 +26,12 @@ class Gold_Point_Admin {
         );
         add_action( 'admin_menu', array( $this, 'gold_point_plugin_setup_menu' ) );
         add_action('admin_enqueue_scripts', array( $this, 'custom_datepicker') );
+        // Add a custom field types.
+		add_action( 'woocommerce_admin_field_my_conversion_ratio', array( $this, 'render_conversion_ratio_field' ) );
+        add_action( 'woocommerce_admin_field_my_redeem_ratio', array( $this, 'render_redeem_ratio_field' ) );
+        // save settings.
+		add_action( 'admin_post_save_gold_point_settings', array( $this, 'save_settings' ) );
+
                  
     }
     function gold_point_plugin_setup_menu(){
@@ -82,7 +88,7 @@ class Gold_Point_Admin {
             $manage_table->display();// display the list table.
         
         }elseif($this->isList==='false'){
-
+            //post back
             if( isset($_POST['input-gold-name']) && $_POST['input-gold-name'] != null && check_admin_referer( 'csrf_token' )){
                 if($_POST['input-gold-id']!=null)
                     $data['id']=$_POST['input-gold-id'];
@@ -133,7 +139,7 @@ class Gold_Point_Admin {
             $user_table->display();
 
         }elseif($this->isList==='false'){
-
+            //post back
             if( isset($_POST['input-user-id']) && $_POST['input-user-id'] != null && check_admin_referer( 'csrf_token' )){
 
                 $data['user_id'] = $_POST['input-user-id'];
@@ -173,9 +179,105 @@ class Gold_Point_Admin {
     }
 
      function show_settings_tab() {
-        echo "N/A";
+        // echo "N/A";
+        ?>
+		<form method="post" action="admin-post.php" enctype="multipart/form-data">
+			<input type="hidden" name="action" value="save_gold_point_settings" />
+			<?php
+				wp_nonce_field( 'gold-point-save-settings-verify' );
+				$this->render_settings();
+			?>
+			<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes', 'woocommerce' ) ?>" />
+		</form>
+		<?php
     }
+    public static function get_settings() {
+        
+        $settings = array(
+            array(
+				'title' => __( 'Points Settings', 'gold-point' ),
+				'type'  => 'title',
+				'id'    => 'gold_point_settings_start'
+            ),    
+            array(
+                'title'    => __( 'Enable reward', 'gold-point' ),
+                'desc'     => __( 'Enable points awarded based on product price.', 'gold-point' ),
+                'id'       => 'gold_point_enable_reward',
+                'default'  => 'no',
+                'type'     => 'checkbox',
+                'desc_tip' => __( '', 'woocommerce' ),
+            ),        
+            // earn points conversion.
+			array(
+				'title'    => __( 'Earn Rate', 'gold-point' ),
+				'desc_tip' => __( 'Number of points awarded based on product price.', 'gold-point' ),
+				'id'       => 'gold_point_earn_points_ratio',
+				'default'  => '1:100',
+				'type'     => 'my_conversion_ratio'
+            ),
+            array(
+				'title'    => __( 'Redeem Rate', 'gold-point' ),
+				'desc_tip' => __( 'Number of points awarded based on product price.', 'gold-point' ),
+				'id'       => 'gold_point_redeem_points_ratio',
+				'default'  => '1:1',
+				'type'     => 'my_redeem_ratio'
+            ),
 
+            array( 'type' => 'sectionend', 'id' => 'wc_points_rewards_points_actions_end' ),
+        );
+        return $settings ;
+    }    
+    
+    public function render_settings() {
+        
+        woocommerce_admin_fields( $this->get_settings() );
+    }
+    public function render_conversion_ratio_field( $field ) {
+       // print_r($field);
+        //id  gold_point_earn_points_ratio
+        $ratio = get_option( $field['id'], $field['default'] );
+        list( $points, $dollar ) = explode( ':', $ratio );
+        ?>
+        <tr valign="top">
+					<th scope="row" class="titledesc">
+						<label for=""><?php echo wp_kses_post( $field['title'] ); ?></label>
+					</th>
+					<td class="forminp forminp-text">
+						<fieldset>
+                            <input type="text" value="<?php echo esc_attr( $points );?>"/> Points for
+                            <input type="text" value="<?php echo esc_attr( $dollar );?>"/> Dollars Spent
+                        </fieldset>
+					</td>
+				</tr>
+        <?php
+    }
+    public function render_redeem_ratio_field( $field ) {
+        $ratio = get_option( $field['id'], $field['default'] );
+        list( $points, $dollar ) = explode( ':', $ratio );
+        ?>
+        <tr valign="top">
+					<th scope="row" class="titledesc">
+						<label for=""><?php echo wp_kses_post( $field['title'] ); ?></label>
+					</th>
+					<td class="forminp forminp-text">
+						<fieldset>
+                            <input type="text" value="<?php echo esc_attr( $points );?>"/> Points equals to
+                            <input type="text" value="<?php echo esc_attr( $dollar );?>"/> Dollars
+                        </fieldset>
+					</td>
+				</tr>
+        <?php
+    }
+    public function save_settings() {
+        // Check the nonce.
+        check_admin_referer( 'gold-point-save-settings-verify' );
+        // Save the settings.
+        woocommerce_update_options( $this->get_settings() );
+        // Go back to the settings page.
+		wp_redirect( admin_url( 'admin.php?page=gold-point-plugin&tab=settings' ) );
+		exit;
+
+    }
     function custom_datepicker() {
         wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
         wp_enqueue_script('jquery-ui-core'); 
