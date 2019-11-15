@@ -55,7 +55,7 @@
                             $selected = ' selected="selected" ';
                         }
                 ?>
-                    <option value="<?php echo esc_attr( $period_id ); ?>" <?php echo $selected; ?>><?php _e( $period_text, 'woocommerce-points-and-rewards' ); ?></option>
+                    <option value="<?php echo esc_attr( $period_id ); ?>" <?php echo $selected; ?>><?php _e( $period_text, 'gold-point' ); ?></option>
                 <?php endforeach; ?>
             </select>
             <p class="description">欲指定發放後有效時間，請勿填入開始/結束時間</p>

@@ -110,7 +110,7 @@ class Gold_Point_Manage_Point_Log_List_Table extends WP_List_Table {
 				/*$timestamp = strtotime( $item->$column_name );
 				$time_diff = current_time( 'timestamp', true ) - $timestamp;
 				if ( $time_diff > 0 && $time_diff < 24 * 60 * 60 ) {
-					$h_time = sprintf( __( '%s ago', 'woocommerce-points-and-rewards' ), human_time_diff( $timestamp, current_time( 'timestamp', true ) ) );
+					$h_time = sprintf( __( '%s ago', 'gold-point' ), human_time_diff( $timestamp, current_time( 'timestamp', true ) ) );
 				} else {
 					$h_time = date_i18n( wc_date_format(), $timestamp );
 				}
@@ -179,10 +179,10 @@ class Gold_Point_Manage_Point_Log_List_Table extends WP_List_Table {
 		switch ( $action ) {
 			case 'update':
 				if ( $success_count > 0 ) {
-					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer updated.', '%s customers updated.', $success_count, 'woocommerce-points-and-rewards' ), $success_count ) );
+					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer updated.', '%s customers updated.', $success_count, 'gold-point' ), $success_count ) );
 				}
 				if ( $error_count > 0 ) {
-					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer could not be updated.', '%s customers could not be updated.', $error_count, 'woocommerce-points-and-rewards' ), $error_count ) );
+					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer could not be updated.', '%s customers could not be updated.', $error_count, 'gold-point' ), $error_count ) );
 				}
 			break;
 		}

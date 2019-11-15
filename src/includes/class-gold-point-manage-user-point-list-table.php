@@ -38,7 +38,7 @@ class Gold_Point_Manage_User_Point_List_Table extends WP_List_Table {
 	/* public function get_bulk_actions() {
 
 		$actions = array(
-			'update' => __( 'Update', 'woocommerce-points-and-rewards' ),
+			'update' => __( 'Update', 'gold-point' ),
 		);
 		return $actions;
 	}
@@ -191,10 +191,10 @@ class Gold_Point_Manage_User_Point_List_Table extends WP_List_Table {
 		switch ( $action ) {
 			case 'update':
 				if ( $success_count > 0 ) {
-					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer updated.', '%s customers updated.', $success_count, 'woocommerce-points-and-rewards' ), $success_count ) );
+					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer updated.', '%s customers updated.', $success_count, 'gold-point' ), $success_count ) );
 				}
 				if ( $error_count > 0 ) {
-					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer could not be updated.', '%s customers could not be updated.', $error_count, 'woocommerce-points-and-rewards' ), $error_count ) );
+					$wc_points_rewards->admin_message_handler->add_message( sprintf( _n( '%d customer could not be updated.', '%s customers could not be updated.', $error_count, 'gold-point' ), $error_count ) );
 				}
 			break;
 		}

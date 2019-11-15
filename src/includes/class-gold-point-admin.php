@@ -19,10 +19,10 @@ class Gold_Point_Admin {
 	 */
 	public function __construct() {
         $this->tabs = array(
-            'manage'   => __( 'Manage Points', 'woocommerce-points-and-rewards' ),
-            'user'   => __( 'User Points', 'woocommerce-points-and-rewards' ),
-            'log'      => __( 'Points Log', 'woocommerce-points-and-rewards' ),
-            'settings' => __( 'Settings', 'woocommerce-points-and-rewards' )
+            'manage'   => __( 'Manage Points', 'gold-point' ),
+            'user'   => __( 'User Points', 'gold-point' ),
+            'log'      => __( 'Points Log', 'gold-point' ),
+            'settings' => __( 'Settings', 'gold-point' )
         );
         add_action( 'admin_menu', array( $this, 'gold_point_plugin_setup_menu' ) );
         add_action('admin_enqueue_scripts', array( $this, 'custom_datepicker') );
